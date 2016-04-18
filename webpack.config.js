@@ -10,7 +10,21 @@ module.exports = {
     ]
   },
   module: {
+    preLoaders: [
+      {
+        test: /\.js$/,
+        loaders: ['eslint'],
+        exclude: /node_modules/
+      }
+    ],
     loaders: [
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loaders: [
+            'file?hash=sha512&digest=hex&name=[hash].[ext]',
+            'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+        ]
+      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -22,6 +36,11 @@ module.exports = {
     path: path.join('./build'),
     filename: 'bundle.js',
     publicPath: 'http://localhost:8090/build/'
+  },
+  resolve: {
+    root: path.resolve('./'),
+    extensions: ['', '.js'],
+    modulesDirectories: ['node_modules']
   },
   devServer: {
     port: 8090
