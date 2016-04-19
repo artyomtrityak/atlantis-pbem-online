@@ -2,7 +2,8 @@ import { LOAD_ASSETS, LOADED_ASSETS } from 'javascript/actions/map.actions';
 
 
 const defaultMapState = {
-  isLoading: false
+  isLoading: false,
+  initialized: false
 };
 
 export default function mapReducer(state=defaultMapState, action) {
@@ -15,7 +16,8 @@ export default function mapReducer(state=defaultMapState, action) {
 
     case LOADED_ASSETS:
       return Object.assign({}, state, {
-        isLoading: false
+        isLoading: false,
+        initialized: true
       });
 
     default:
