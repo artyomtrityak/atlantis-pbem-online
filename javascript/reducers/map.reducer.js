@@ -1,23 +1,25 @@
-import { LOAD_ASSETS, LOADED_ASSETS } from 'javascript/actions/map.actions';
+import { INITIALIZE, INITIALIZED } from 'javascript/actions/map.actions';
 
 
 const defaultMapState = {
   isLoading: false,
-  initialized: false
+  initialized: false,
+  userMap: []
 };
 
 export default function mapReducer(state=defaultMapState, action) {
   switch (action.type) {
 
-    case LOAD_ASSETS:
+    case INITIALIZE:
       return Object.assign({}, state, {
         isLoading: true
       });
 
-    case LOADED_ASSETS:
+    case INITIALIZED:
       return Object.assign({}, state, {
         isLoading: false,
-        initialized: true
+        initialized: true,
+        userMap: action.userMap
       });
 
     default:

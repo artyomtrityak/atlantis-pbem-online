@@ -24,7 +24,7 @@ module.exports = {
         "no-debugger": 2,
         "no-restricted-syntax": [2, "WithStatement"],
         "no-unused-expressions": 2,
-        "no-trailing-spaces": 1,
+        "no-trailing-spaces": 0,
         "no-shadow": 2,
         "no-undef": 2,
         "no-unused-vars": 0,
