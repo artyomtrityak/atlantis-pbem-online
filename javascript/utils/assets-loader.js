@@ -1,7 +1,7 @@
 import Promise from 'bluebird';
 import PIXI from 'pixi.js/bin/pixi';
 
-import hexImg from 'assets/images/hex.png';
+import hexImg from 'assets/images/hex2.png';
 
 
 export default function loadAssets() {
