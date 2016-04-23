@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import MapContainer from './map.container';
 
-import 'assets/css/reset.css';
+import 'assets/css/index.scss';
+import loginSvg from 'account-login.svg';
 
 import { loadMapDataAction } from 'javascript/actions/map.actions';
 
@@ -10,7 +11,6 @@ import { loadMapDataAction } from 'javascript/actions/map.actions';
 class AppContainer extends Component {
   constructor(props) {
     super(props);
-    //this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -28,6 +28,9 @@ class AppContainer extends Component {
         </div>
         <div style={{flex: 30, display: 'flex', margin: 10}}>
           Details
+          <svg className="icon" style={{width: 20, height: 20}}>
+            <use xlinkHref={loginSvg} className="icon-account-login"></use>
+          </svg>
         </div>
       </div>
     );

@@ -4,6 +4,8 @@ import PIXI from 'pixi.js/bin/pixi';
 import { updateMapPosition, selectHex } from 'javascript/actions/map.actions';
 import { animate } from 'javascript/utils';
 
+import ZoomComponent from 'javascript/components/map-zoom';
+
 
 let HEX_MAP = {},
     HEX_SELECTION = null;
@@ -131,7 +133,9 @@ class MapContainer extends Component {
 
   render() {
     return (
-      <div ref="map" style={{flex: 1}}></div>
+      <div ref="map" style={{flex: 1, position: 'relative'}}>
+        <ZoomComponent />
+      </div>
     );
   }
 }

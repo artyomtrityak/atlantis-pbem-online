@@ -27,7 +27,11 @@ module.exports = {
         loader: "style-loader!css-loader"
       },
       {
-        test: /\.(jpe?g|png|gif|svg)$/i,
+        test: /\.svg$/,
+        loader: 'svg-sprite?' + JSON.stringify({name: '[name]_[hash]'})
+      },
+      {
+        test: /\.(jpe?g|png|gif)$/i,
         loaders: [
             'file?hash=sha512&digest=hex&name=[hash].[ext]',
             'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
@@ -47,8 +51,8 @@ module.exports = {
   },
   resolve: {
     root: path.resolve('./'),
-    extensions: ['', '.js'],
-    modulesDirectories: ['node_modules']
+    extensions: ['', '.js', '.svg'],
+    modulesDirectories: ['node_modules', path.join('./assets/images/svg')]
   },
   devServer: {
     port: 8090
