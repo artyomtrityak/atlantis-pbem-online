@@ -2,8 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import MapContainer from './map.container';
 
-import 'assets/css/index.scss';
-import loginSvg from 'account-login.svg';
+import 'assets/styles/index.scss';
 
 import { loadMapDataAction } from 'javascript/actions/map.actions';
 
@@ -28,9 +27,13 @@ class AppContainer extends Component {
         </div>
         <div style={{flex: 30, display: 'flex', margin: 10}}>
           Details
-          <svg className="icon" style={{width: 20, height: 20}}>
-            <use xlinkHref={loginSvg} className="icon-account-login"></use>
-          </svg>
+          <a className="button">
+            <span className="icon">
+              <i className="fa fa-github"></i>
+            </span>
+            <span>GitHub</span>
+          </a>
+          
         </div>
       </div>
     );
