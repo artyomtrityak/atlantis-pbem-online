@@ -27,12 +27,10 @@ class AppContainer extends Component {
         </div>
         <div style={{flex: 30, display: 'flex', margin: 10}}>
           Details
-          <a className="button">
-            <span className="icon">
-              <i className="fa fa-github"></i>
-            </span>
-            <span>GitHub</span>
-          </a>
+          <button type="button" className="close" ariaLabel="Close">
+            <span ariaHidden="true">&times;</span>
+            <i className="fa fa-github"></i>
+          </button>
           
         </div>
       </div>
