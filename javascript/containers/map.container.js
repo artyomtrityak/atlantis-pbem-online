@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import PIXI from 'pixi.js/bin/pixi';
-import { updateMapPosition, selectHex } from 'javascript/actions/map.actions';
+import { updateMapPosition, selectHex, zoomIn, zoomOut } from 'javascript/actions/map.actions';
 import { animate } from 'javascript/utils';
 
 import ZoomComponent from 'javascript/components/map-zoom';
@@ -12,6 +12,12 @@ let HEX_MAP = {},
 
 
 class MapContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.onZoomIn = this.onZoomIn.bind(this);
+    this.onZoomOut = this.onZoomOut.bind(this);
+  }
+
   shouldComponentUpdate() {
     return false;
   }
@@ -23,7 +29,7 @@ class MapContainer extends Component {
     }
 
     this.mapRenderer = new PIXI.CanvasRenderer(
-      this.refs.map.offsetWidth, this.refs.map.offsetHeight, {backgroundColor : 0x808080}
+      this.refs.map.offsetWidth-50, this.refs.map.offsetHeight-10, {backgroundColor : 0x808080}
     );
 
     //Initialize root stage container and bind map actions mouse events
@@ -112,8 +118,16 @@ class MapContainer extends Component {
     this.props.dispatch(selectHex(hex.hexId));
   }
 
+  onZoomIn() {
+    this.props.dispatch(zoomIn());
+  }
+
+  onZoomOut() {
+    this.props.dispatch(zoomOut()); 
+  }
+
   renderHexes() {
-    this.props.map.userMap.forEach((tile, index) => {
+    this.props.map.userMap.forEach((tile) => {
       let hex = new PIXI.Sprite(PIXI.loader.resources.hex.texture);
       hex.interactive = true;
       hex.buttonMode = true;
@@ -133,8 +147,8 @@ class MapContainer extends Component {
 
   render() {
     return (
-      <div ref="map" style={{flex: 1, position: 'relative'}}>
-        <ZoomComponent />
+      <div className="col-md-8" ref="map">
+        <ZoomComponent onZoomIn={this.onZoomIn} onZoomOut={this.onZoomOut} />
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import MapContainer from './map.container';
+import Navbar from 'javascript/components/navbar';
 
 import 'assets/styles/index.scss';
 
@@ -20,19 +21,19 @@ class AppContainer extends Component {
 
   render() {
     return (
-      <div style={{display: 'flex', height: '98vh'}}>
-        <div style={{flex: 70, display: 'flex', margin: 10}}>
-          {/*Instead of null draw dump map with Register / Login btn*/}
+      <div className="atl-app-container">
+        <Navbar />
+
+        <div className="row" style={{flex: 1, paddingTop: '1rem'}}>
           {this.props.map.initialized ? <MapContainer /> : null}
+          <div className="col-md-4">
+            Details
+          </div>
         </div>
-        <div style={{flex: 30, display: 'flex', margin: 10}}>
-          Details
-          <button type="button" className="close" ariaLabel="Close">
-            <span ariaHidden="true">&times;</span>
-            <i className="fa fa-github"></i>
-          </button>
-          
-        </div>
+        <footer className="footer">
+          <p>&copy; Company 2016</p>
+        </footer>
+
       </div>
     );
   }

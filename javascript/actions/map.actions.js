@@ -6,6 +6,8 @@ export const INITIALIZE = 'INITIALIZE';
 export const INITIALIZED = 'INITIALIZED';
 export const UPDATE_MAP_POSITION = 'UPDATE_MAP_POSITION';
 export const SELECT_HEX = 'SELECT_HEX';
+export const ZOOM_IN = 'ZOOM_IN';
+export const ZOOM_OUT = 'ZOOM_OUT';
 
 //TMP
 let tmpData = [
@@ -30,6 +32,20 @@ export function selectHex(hexId) {
     type: SELECT_HEX,
     hexId: hexId
   };
+}
+
+
+export function zoomIn() {
+  return {
+    type: ZOOM_IN
+  }; 
+}
+
+
+export function zoomOut() {
+  return {
+    type: ZOOM_OUT
+  }; 
 }
 
 

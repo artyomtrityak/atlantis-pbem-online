@@ -1,0 +1,16 @@
+.atl-map-zoom {
+  position: absolute;
+  top: 5px;
+  right: 40px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  background: $atl-white;
+  border-radius: 5px;
+  opacity: 0.8;
+
+  .fa {
+    font-size: 38px;
+    cursor: pointer;
+  }
+}
