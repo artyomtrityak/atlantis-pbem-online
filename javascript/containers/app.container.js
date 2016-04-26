@@ -30,10 +30,6 @@ class AppContainer extends Component {
             Details
           </div>
         </div>
-        <footer className="footer">
-          <p>&copy; Company 2016</p>
-        </footer>
-
       </div>
     );
   }

@@ -6,7 +6,6 @@ import hexImg from 'assets/images/hex2.png';
 
 export default function loadAssets() {
   PIXI.loader.add('hex', hexImg);
-  PIXI.loader.add('hex2', 'http://pixijs.github.io/examples/_assets/eggHead.png');
   
 
   return new Promise((resolve, reject) => {

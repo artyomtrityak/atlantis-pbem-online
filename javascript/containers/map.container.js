@@ -46,6 +46,7 @@ class MapContainer extends Component {
     this.mapContainer = new PIXI.Container();
     this.mapContainer.x = this.props.map.posX;
     this.mapContainer.y = this.props.map.posY;
+    this.mapContainer.scale.set(this.props.map.zoomLevel/100);
 
     //Render available to user map from report
     this.renderHexes();
@@ -67,6 +68,11 @@ class MapContainer extends Component {
     //Select / unselect hex if something changed
     if (this.props.map.selectedHexId !== nextProps.map.selectedHexId) {
       this.selectHex(nextProps.map.selectedHexId);
+    }
+
+    //Zoom
+    if (this.props.map.zoomLevel !== nextProps.map.zoomLevel) {
+      this.mapContainer.scale.set(nextProps.map.zoomLevel/100);
     }
   }
 
