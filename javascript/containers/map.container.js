@@ -22,12 +22,14 @@ class MapContainer extends Component {
     return false;
   }
 
-  componentDidMount() {
+  componentWillUnmount() {
     if (this.mapRenderer) {
       this.mapRenderer.destroy(true);
       HEX_MAP = {};
     }
+  }
 
+  componentDidMount() {
     this.mapRenderer = new PIXI.CanvasRenderer(
       this.refs.map.offsetWidth-50, this.refs.map.offsetHeight-10, {backgroundColor : 0x808080}
     );
@@ -60,8 +62,7 @@ class MapContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('next:', nextProps);
-    //Set x,y position to map
+    //Set x,y panning position to map
     this.mapContainer.x = nextProps.map.posX;
     this.mapContainer.y = nextProps.map.posY;
 
@@ -70,7 +71,7 @@ class MapContainer extends Component {
       this.selectHex(nextProps.map.selectedHexId);
     }
 
-    //Zoom
+    //Change zoom in something changed
     if (this.props.map.zoomLevel !== nextProps.map.zoomLevel) {
       this.mapContainer.scale.set(nextProps.map.zoomLevel/100);
     }
@@ -82,10 +83,11 @@ class MapContainer extends Component {
       HEX_MAP[this.props.map.selectedHexId].removeChild(HEX_SELECTION);  
     }
 
-    HEX_SELECTION = new PIXI.Sprite(PIXI.loader.resources.hex.texture);
-    //TODO: tmp
-    HEX_SELECTION.x = 10;
-    HEX_SELECTION.y = 10;
+    // let hex = HEX_MAP[selectedHexId];
+    // this.mapContainer.removeChild(hex);
+    // this.mapContainer.addChild(hex);
+
+    HEX_SELECTION = new PIXI.Sprite(PIXI.loader.resources.hex_selected.texture);
 
     //Add selection border sprite ontop of hex
     HEX_MAP[selectedHexId].addChild(HEX_SELECTION);
@@ -134,16 +136,13 @@ class MapContainer extends Component {
 
   renderHexes() {
     this.props.map.userMap.forEach((tile) => {
-      let hex = new PIXI.Sprite(PIXI.loader.resources.hex.texture);
+      let hex = new PIXI.Sprite(PIXI.loader.resources.hex_desert.texture);
       hex.interactive = true;
       hex.buttonMode = true;
       hex.hexId = tile.x + ',' + tile.y;
-      
-      console.log(hex.width, hex.height);
-
-      hex.x = tile.x / 2 * 100 + tile.x / 2 * 40;
-      //TODO: 86 -> 100
-      hex.y = tile.y / 2 * 86;
+      //Set tile x/y position on canvas map
+      hex.x = tile.x / 2 * 100 + tile.x / 2 * 50;
+      hex.y = tile.y / 2 * 87;
 
       HEX_MAP[hex.hexId] = hex;
       this.mapContainer.addChild(hex);
