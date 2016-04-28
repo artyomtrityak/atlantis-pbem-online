@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import PIXI from 'pixi.js/bin/pixi';
-import { updateMapPosition, selectHex, zoomIn, zoomOut } from 'javascript/actions/map.actions';
+import { updateMapPositionAction, selectHexAction, zoomInAction, zoomOutAction } from 'javascript/actions/map.actions';
 import { animate } from 'javascript/utils';
 
 import ZoomComponent from 'javascript/components/map-zoom';
@@ -83,10 +83,6 @@ class MapContainer extends Component {
       HEX_MAP[this.props.map.selectedHexId].removeChild(HEX_SELECTION);  
     }
 
-    // let hex = HEX_MAP[selectedHexId];
-    // this.mapContainer.removeChild(hex);
-    // this.mapContainer.addChild(hex);
-
     HEX_SELECTION = new PIXI.Sprite(PIXI.loader.resources.hex_selected.texture);
 
     //Add selection border sprite ontop of hex
@@ -119,19 +115,19 @@ class MapContainer extends Component {
 
   onMouseUp() {
     this.dragStart = false;
-    this.props.dispatch(updateMapPosition(this.mapContainer.x, this.mapContainer.y));
+    this.props.dispatch(updateMapPositionAction(this.mapContainer.x, this.mapContainer.y));
   }
 
   onHexClick(hex) {
-    this.props.dispatch(selectHex(hex.hexId));
+    this.props.dispatch(selectHexAction(hex.hexId));
   }
 
   onZoomIn() {
-    this.props.dispatch(zoomIn());
+    this.props.dispatch(zoomInAction());
   }
 
   onZoomOut() {
-    this.props.dispatch(zoomOut()); 
+    this.props.dispatch(zoomOutAction()); 
   }
 
   renderHexes() {

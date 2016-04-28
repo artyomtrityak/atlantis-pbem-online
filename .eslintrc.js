@@ -42,6 +42,7 @@ module.exports = {
         "dot-location": [2, "property"],
         "dot-notation": 2,
         "no-multi-spaces": 2,
-        "no-unused-expressions": 2
+        "no-unused-expressions": 2,
+        "no-use-before-define": 0
     }
 };

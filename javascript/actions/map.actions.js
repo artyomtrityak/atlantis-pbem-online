@@ -1,4 +1,4 @@
-import { loadAssets, ReportParser } from 'javascript/utils';
+import { loadAssets, reportParser } from 'javascript/utils';
 
 
 export const INITIALIZE = 'INITIALIZE';
@@ -10,7 +10,7 @@ export const ZOOM_OUT = 'ZOOM_OUT';
 
 
 //TMP
-import sampleReport from 'raw!assets/sample-locations.rep';
+import sampleReport from 'raw!tests/sample-reports/locations.rep';
 let tmpData = [
   {x: 0, y: 0}, {x: 2, y: 0}, {x: 4, y: 0}, {x: 6, y: 0}, {x: 8, y: 0},
   {x: 1, y: 1}, {x: 3, y: 1},
@@ -19,7 +19,7 @@ let tmpData = [
 ];
 
 
-export function updateMapPosition(posX, posY) {
+export function updateMapPositionAction(posX, posY) {
   return {
     type: UPDATE_MAP_POSITION,
     posX: posX,
@@ -28,7 +28,7 @@ export function updateMapPosition(posX, posY) {
 }
 
 
-export function selectHex(hexId) {
+export function selectHexAction(hexId) {
   return {
     type: SELECT_HEX,
     hexId: hexId
@@ -36,26 +36,26 @@ export function selectHex(hexId) {
 }
 
 
-export function zoomIn() {
+export function zoomInAction() {
   return {
     type: ZOOM_IN
   }; 
 }
 
 
-export function zoomOut() {
+export function zoomOutAction() {
   return {
     type: ZOOM_OUT
   }; 
 }
 
 
-export function loadMapDataAction() {
+export function initializeAction() {
   return async function(dispatch) {
     dispatch({type: INITIALIZE});
     await loadAssets();
     //TODO: get user data
-    let reportParser = new ReportParser({report: sampleReport});
+    await reportParser.parse(sampleReport);
     dispatch({type: INITIALIZED, userMap: tmpData});
   };
 }

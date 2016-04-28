@@ -58,7 +58,6 @@ export default function mapReducer(state=defaultMapState, action) {
       });
 
     default:
-      console.log('def:', action);
       return state;
   }
 }

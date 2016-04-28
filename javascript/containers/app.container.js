@@ -5,7 +5,7 @@ import Navbar from 'javascript/components/navbar';
 
 import 'assets/styles/index.scss';
 
-import { loadMapDataAction } from 'javascript/actions/map.actions';
+import { initializeAction } from 'javascript/actions/map.actions';
 
 
 class AppContainer extends Component {
@@ -15,8 +15,7 @@ class AppContainer extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    //TODO: fetch login user status during loadMapDataAction
-    dispatch(loadMapDataAction());
+    dispatch(initializeAction());
   }
 
   render() {
