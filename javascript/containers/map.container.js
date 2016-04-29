@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import PIXI from 'pixi.js/bin/pixi';
 import { updateMapPositionAction, selectHexAction, zoomInAction, zoomOutAction } from 'javascript/actions/map.actions';
-import { animate } from 'javascript/utils';
+import { animate, reportParser } from 'javascript/utils';
 
 import ZoomComponent from 'javascript/components/map-zoom';
 
@@ -131,6 +131,59 @@ class MapContainer extends Component {
   }
 
   renderHexes() {
+    let test = {};
+    reportParser.getState().regions.forEach((region, i) => {
+      //console.log(region);
+
+      let textureName;
+      switch(region.type) {
+        case 'ocean':
+          textureName = 'ocean';
+          break;
+        case 'swamp':
+          textureName = 'swamp';
+          break;
+        case 'plain':
+          textureName = 'plain';
+          break;
+        case 'jungle':
+          textureName = 'jungle';
+          break;
+        case 'forest':
+          textureName = 'forest';
+          break;
+        case 'desert':
+          textureName = 'desert';
+          break;
+        case 'mountain':
+          textureName = 'mountain';
+          break;
+        case 'tundra':
+          textureName = 'tundra';
+          break;
+        case 'lake':
+          textureName = 'lake';
+          break;
+        default:
+          test[region.type] = 1;
+          //TODO: tmp
+          textureName = 'forest';
+      }
+
+      let hex = new PIXI.Sprite(PIXI.loader.resources['hex_' + textureName].texture);
+      hex.interactive = true;
+      hex.buttonMode = true;
+      hex.hexId = region.x + ',' + region.y;
+      //Set tile x/y position on canvas map
+      hex.x = region.x / 2 * 100 + region.x / 2 * 50;
+      hex.y = region.y / 2 * 87;
+
+      HEX_MAP[hex.hexId] = hex;
+      this.mapContainer.addChild(hex);
+      hex.on('mousedown', this.onHexClick.bind(this, hex));
+    });
+
+    /*
     this.props.map.userMap.forEach((tile) => {
       let hex = new PIXI.Sprite(PIXI.loader.resources.hex_desert.texture);
       hex.interactive = true;
@@ -143,7 +196,7 @@ class MapContainer extends Component {
       HEX_MAP[hex.hexId] = hex;
       this.mapContainer.addChild(hex);
       hex.on('mousedown', this.onHexClick.bind(this, hex));
-    });
+    });*/
   }
 
   render() {

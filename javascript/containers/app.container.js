@@ -26,7 +26,7 @@ class AppContainer extends Component {
         <div className="row" style={{flex: 1, paddingTop: '1rem'}}>
           {this.props.map.initialized ? <MapContainer /> : null}
           <div className="col-md-4">
-            Details
+            
           </div>
         </div>
       </div>

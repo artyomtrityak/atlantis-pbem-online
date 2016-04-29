@@ -2,6 +2,10 @@ import React from 'react';
 
 
 const NavbarComponent = (props) => {
+  //TODO: remove
+  if (!props.zzzzz) {
+    return null;
+  }
   return (
     <nav className="navbar navbar-light bg-faded">
       <a className="navbar-brand" href="#">Atlantis Online</a>

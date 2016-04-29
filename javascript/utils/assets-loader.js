@@ -19,9 +19,9 @@ import hillsImg from 'assets/images/hills.png';
 
 export default function loadAssets() {
   PIXI.loader
-    .add('hex_water', waterImg)
+    .add('hex_lake', shallowWaterImg)
     .add('hex_shallowwater', shallowWaterImg)
-    .add('hex_deepwater', deepWaterImg)
+    .add('hex_ocean', deepWaterImg)
     .add('hex_plain', plainImg)
     .add('hex_desert', desertImg)
     .add('hex_swamp', swampImg)

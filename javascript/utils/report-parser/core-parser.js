@@ -1,4 +1,12 @@
-import { check } from './utils';
+import { check, mRegExp } from './utils';
+
+
+const factionRegExp = mRegExp([
+  /^(.+)\s+/, //Faction name
+  /\((\d+)\)\s+/, //Faction number
+  /\((.+)\)$/ // Faction power
+]);
+
 
 export default function coreParser(rawReport, state) {
   if (state.factionName && state.factionTax) {
@@ -18,8 +26,8 @@ function parseFactionName(rawReport, state) {
   check(rawReport[line] !== 'Atlantis Report For:', line, rawReport[line], 'parseFactionName');
   line += 1;
   
-  const result = (new RegExp(/^(.+) \((\d+)\) \((.+)\)$/)).exec(rawReport[line]);
-  check(!result || result.length !== 4, line, rawReport[line], 'parseFactionName');
+  const result = factionRegExp.exec(rawReport[line]);
+  check(!result, line, rawReport[line], 'parseFactionName');
   line += 1;
 
   return {
@@ -35,8 +43,8 @@ function parseFactionName(rawReport, state) {
 function parseGameDate(rawReport, state) {
   let line = state.__line;
   
-  const result = (new RegExp(/^(.+), Year (\d+)$/)).exec(rawReport[line]);
-  check(!result || result.length !== 3, line, rawReport[line], 'parseGameDate');
+  const result = (new RegExp(/^(.+),\s+Year\s+(\d+)$/)).exec(rawReport[line]);
+  check(!result, line, rawReport[line], 'parseGameDate');
   line += 1;
 
   return {
@@ -55,7 +63,7 @@ function parseVersionInfo(rawReport, state) {
   }
   
   const result = (new RegExp(/^Atlantis Engine Version: (.+)$/)).exec(rawReport[line]);
-  check(!result || result.length !== 2, line, rawReport[line], 'parseVersionInfo');
+  check(!result, line, rawReport[line], 'parseVersionInfo');
   line += 1;
 
   const versionDetails = rawReport[line];
@@ -80,20 +88,20 @@ function parseFactionStats(rawReport, state) {
   line += 1;
 
   const resultTax = (new RegExp(/^Tax Regions: (\d+) \((\d+)\)$/)).exec(rawReport[line]);
-  check(!resultTax || resultTax.length !== 3, line, rawReport[line], 'parseFactionStats1');
+  check(!resultTax, line, rawReport[line], 'parseFactionStats1');
   line += 1;
 
   const resultTrade = (new RegExp(/^Trade Regions: (\d+) \((\d+)\)$/)).exec(rawReport[line]);
-  check(!resultTrade || resultTrade.length !== 3, line, rawReport[line], 'parseFactionStats2');
+  check(!resultTrade, line, rawReport[line], 'parseFactionStats2');
   line += 1;
 
   const resultMages = (new RegExp(/^Mages: (\d+) \((\d+)\)$/)).exec(rawReport[line]);
-  check(!resultMages || resultMages.length !== 3, line, rawReport[line], 'parseFactionStats3');
+  check(!resultMages, line, rawReport[line], 'parseFactionStats3');
   line += 1;
   
   //TODO: Check is it custom
   const resultAcolytes = (new RegExp(/^Acolytes: (\d+) \((\d+)\)$/)).exec(rawReport[line]);
-  if (resultAcolytes && resultAcolytes.length === 3) {
+  if (resultAcolytes) {
     line += 1;  
   }
 
@@ -101,11 +109,11 @@ function parseFactionStats(rawReport, state) {
     __line: line,
     __modified: true,
     factionTax: resultTax[1],
-    factionMaxTax: resultTax[2],
+    factionTaxMax: resultTax[2],
     factionTrade: resultTrade[1],
-    factionMaxTrade: resultTrade[2],
+    factionTradeMax: resultTrade[2],
     factionMages: resultMages[1],
-    factionMaxMages: resultMages[2]
+    factionMagesMax: resultMages[2]
   };
 }
 
