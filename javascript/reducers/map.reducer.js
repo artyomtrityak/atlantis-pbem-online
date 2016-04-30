@@ -6,7 +6,7 @@ import {
 const defaultMapState = {
   isLoading: false,
   initialized: false,
-  userMap: [],
+  userMap: {},
   posX: 0,
   posY: 0,
   selectedHexId: null,

@@ -18,7 +18,7 @@ class ReportParser {
   }
 
   parse(rawReport) {
-    this.state = {__line: 0, __modified: false, regions: []};
+    this.state = {__line: 0, __modified: false, regions: {}};
     this.rawReport = rawReport.split('\n');
     this.flushTimer = 20;
 
@@ -31,17 +31,8 @@ class ReportParser {
   }
 
   findAndExecuteParser() {
-    if (this.state.__line % 1000 === 0) {
-      console.log(this.state.__line);
-    }
     coreParser(this.rawReport, this.state);
     regionsParser(this.rawReport, this.state);
-
-    //TODO: tmp for work
-    //if (this.state.__line > 2220) {
-    //  console.log(this.state);
-    //  return;
-    //}
 
     if (this.rawReport[this.state.__line] === undefined) {
       this._onDone();

@@ -38,14 +38,14 @@ export default function regionsParser(rawReport, state) {
 
     //Is regions block end
     if (ordersRegExp.test(rawReport[state.__line])) {
-      state.regions.push(region);
+      state.regions[generateRegionId(region)] = region;
       return;
     }
 
     // Is it start of new region
     currentSentence = getSentence(rawReport, state.__line);
     if (regionRegExp.test(currentSentence.rawRow) || ordersRegExp.test(currentSentence.rawRow)) {
-      state.regions.push(region);
+      state.regions[generateRegionId(region)] = region;
       return;
     }
     
@@ -69,4 +69,11 @@ function parseRegionHeader(rawRow, region) {
     isUnderworld: regionHead[4] === 'underworld',
     raw: rawRow
   };
+}
+
+function generateRegionId(region) {
+  if (region.isUnderworld) {
+    return region.x + '_' + region.y + '_underworld';
+  }
+  return region.x + '_' + region.y;
 }
