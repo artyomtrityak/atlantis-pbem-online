@@ -68,15 +68,13 @@ class MapContainer extends Component {
     this.mapContainer.x = nextProps.map.posX;
     this.mapContainer.y = nextProps.map.posY;
 
-    //Select / unselect hex if something changed
+    //Select / unselect hex if selectedHexId changed
     if (this.props.map.selectedHexId !== nextProps.map.selectedHexId) {
       this.selectHex(nextProps.map.selectedHexId);
     }
 
-    //Change zoom and center to selected hex if something changed
-    if (this.props.map.zoomLevel !== nextProps.map.zoomLevel ||
-      this.props.map.selectedHexId !== nextProps.map.selectedHexId
-    ) {
+    //Change zoom and center to selected hex if zoom changed or this is first rendering
+    if (this.props.map.zoomLevel !== nextProps.map.zoomLevel || this.props.map.selectedHexId === null) {
       this.zoomAndCenterHex(nextProps.map.selectedHexId, nextProps.map.zoomLevel);
     }
   }
@@ -101,8 +99,8 @@ class MapContainer extends Component {
     zoomLevel = zoomLevel / 100;
     this.mapContainer.scale.set(zoomLevel);
 
-    this.mapContainer.x = -1 * hex.position.x * zoomLevel + this.refs.map.offsetWidth / 2;
-    this.mapContainer.y = -1 * hex.position.y * zoomLevel + this.refs.map.offsetHeight / 2;
+    this.mapContainer.x = -1 * hex.position.x * zoomLevel + this.refs.map.offsetWidth / 2 - 50;
+    this.mapContainer.y = -1 * hex.position.y * zoomLevel + this.refs.map.offsetHeight / 2 - 50;
   }
 
   onMouseDown() {
@@ -134,8 +132,8 @@ class MapContainer extends Component {
     this.props.dispatch(updateMapPositionAction(this.mapContainer.x, this.mapContainer.y));
   }
 
-  onHexClick(hex) {
-    this.props.dispatch(selectHexAction(hex.hexId));
+  onHexClick(hexId) {
+    this.props.dispatch(selectHexAction(hexId));
   }
 
   onZoomIn() {
@@ -166,11 +164,13 @@ class MapContainer extends Component {
       HEX_MAP[hex.hexId] = hex;
       selectedHexId = hex.hexId;
       this.mapContainer.addChild(hex);
-      hex.on('mousedown', this.onHexClick.bind(this, hex));
+      hex.on('mousedown', this.onHexClick.bind(this, selectedHexId));
     });
 
     //Automatically select random hex
     this.props.dispatch(selectHexAction(selectedHexId));
+
+    //TODO: connect map edges?
   }
 
   render() {
