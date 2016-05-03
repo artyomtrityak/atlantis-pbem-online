@@ -73,9 +73,11 @@ class MapContainer extends Component {
       this.selectHex(nextProps.map.selectedHexId);
     }
 
-    //Change zoom in something changed
-    if (this.props.map.zoomLevel !== nextProps.map.zoomLevel) {
-      this.mapContainer.scale.set(nextProps.map.zoomLevel/100);
+    //Change zoom and center to selected hex if something changed
+    if (this.props.map.zoomLevel !== nextProps.map.zoomLevel ||
+      this.props.map.selectedHexId !== nextProps.map.selectedHexId
+    ) {
+      this.zoomAndCenterHex(nextProps.map.selectedHexId, nextProps.map.zoomLevel);
     }
   }
 
@@ -86,9 +88,21 @@ class MapContainer extends Component {
     }
 
     HEX_SELECTION = new PIXI.Sprite(PIXI.loader.resources.hex_selected.texture);
-
     //Add selection border sprite ontop of hex
     HEX_MAP[selectedHexId].addChild(HEX_SELECTION);
+  }
+
+  zoomAndCenterHex(selectedHexId, zoomLevel) {
+    if (!selectedHexId) {
+      selectedHexId = this.props.map.selectedHexId;
+    }
+    const hex = HEX_MAP[selectedHexId];    
+
+    zoomLevel = zoomLevel / 100;
+    this.mapContainer.scale.set(zoomLevel);
+
+    this.mapContainer.x = -1 * hex.position.x * zoomLevel + this.refs.map.offsetWidth / 2;
+    this.mapContainer.y = -1 * hex.position.y * zoomLevel + this.refs.map.offsetHeight / 2;
   }
 
   onMouseDown() {
@@ -133,6 +147,8 @@ class MapContainer extends Component {
   }
 
   renderHexes() {
+    let selectedHexId;
+
     Object.keys(this.props.map.userMap.regions).forEach((regionKey, i) => {
       let region = reportParser.getState().regions[regionKey];
       if (region.isUnderworld) {
@@ -148,9 +164,13 @@ class MapContainer extends Component {
       hex.y = region.y / 2 * 87;
 
       HEX_MAP[hex.hexId] = hex;
+      selectedHexId = hex.hexId;
       this.mapContainer.addChild(hex);
       hex.on('mousedown', this.onHexClick.bind(this, hex));
     });
+
+    //Automatically select random hex
+    this.props.dispatch(selectHexAction(selectedHexId));
   }
 
   render() {

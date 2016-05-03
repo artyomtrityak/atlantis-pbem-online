@@ -46,15 +46,15 @@ export default function mapReducer(state=defaultMapState, action) {
       }
 
       return Object.assign({}, state, {
-        zoomLevel: state.zoomLevel + 20
+        zoomLevel: state.zoomLevel + 10
       });
 
     case ZOOM_OUT:
-      if (state.zoomLevel === 20) {
+      if (state.zoomLevel === 10) {
         return state;
       }
       return Object.assign({}, state, {
-        zoomLevel: state.zoomLevel - 20
+        zoomLevel: state.zoomLevel - 10
       });
 
     default:
