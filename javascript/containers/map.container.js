@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { animate, reportParser } from 'javascript/utils';
 import {
-  updateMapPositionAction, selectHexAction, zoomInAction, zoomOutAction
+  updateMapPositionAction, selectHexAction, zoomInAction, zoomOutAction, selectHexAndZoomInAction
 } from 'javascript/actions/map.actions';
 import ZoomComponent from 'javascript/components/map-zoom';
 
@@ -48,8 +48,6 @@ class MapContainer extends Component {
 
     //Initialize map container and set base x,y position
     this.mapContainer = new PIXI.Container();
-    this.mapContainer.x = this.props.map.posX;
-    this.mapContainer.y = this.props.map.posY;
     this.mapContainer.scale.set(this.props.map.zoomLevel/100);
 
     //Render available to user map from report
@@ -64,10 +62,6 @@ class MapContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //Set x,y panning position to map
-    this.mapContainer.x = nextProps.map.posX;
-    this.mapContainer.y = nextProps.map.posY;
-
     //Select / unselect hex if selectedHexId changed
     if (this.props.map.selectedHexId !== nextProps.map.selectedHexId) {
       this.selectHex(nextProps.map.selectedHexId);
@@ -75,6 +69,7 @@ class MapContainer extends Component {
 
     //Change zoom and center to selected hex if zoom changed or this is first rendering
     if (this.props.map.zoomLevel !== nextProps.map.zoomLevel || this.props.map.selectedHexId === null) {
+      console.log('wft?', this.props.map.selectedHexId, this.props.map.zoomLevel, nextProps.map.zoomLevel);
       this.zoomAndCenterHex(nextProps.map.selectedHexId, nextProps.map.zoomLevel);
     }
   }
@@ -133,7 +128,17 @@ class MapContainer extends Component {
   }
 
   onHexClick(hexId) {
-    this.props.dispatch(selectHexAction(hexId));
+    if (this._dblClickCheck) {
+      this.props.dispatch(selectHexAndZoomInAction(hexId));
+    } else {
+      this.props.dispatch(selectHexAction(hexId));  
+    }
+    
+    //DblClick handlers
+    this._dblClickCheck = true;
+    setTimeout(() => {
+      this._dblClickCheck = false;
+    }, 300);
   }
 
   onZoomIn() {
@@ -148,7 +153,7 @@ class MapContainer extends Component {
     let selectedHexId;
 
     Object.keys(this.props.map.userMap.regions).forEach((regionKey, i) => {
-      let region = reportParser.getState().regions[regionKey];
+      let region = this.props.map.userMap.regions[regionKey];
       if (region.isUnderworld) {
         return;
       }
@@ -156,7 +161,8 @@ class MapContainer extends Component {
       let hex = new PIXI.Sprite(PIXI.loader.resources['hex_' + region.type].texture);
       hex.interactive = true;
       hex.buttonMode = true;
-      hex.hexId = region.x + ',' + region.y;
+      hex.hexId = regionKey;
+
       //Set tile x/y position on canvas map
       hex.x = region.x / 2 * 100 + region.x / 2 * 50;
       hex.y = region.y / 2 * 87;

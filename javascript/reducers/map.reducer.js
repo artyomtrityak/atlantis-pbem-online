@@ -1,5 +1,5 @@
 import {
-  INITIALIZE, INITIALIZED, UPDATE_MAP_POSITION, SELECT_HEX, ZOOM_IN, ZOOM_OUT
+  INITIALIZE, INITIALIZED, UPDATE_MAP_POSITION, SELECT_HEX, ZOOM_IN, ZOOM_OUT, SELECT_HEX_AND_ZOOM_IN
 } from 'javascript/actions/map.actions';
 
 
@@ -40,21 +40,30 @@ export default function mapReducer(state=defaultMapState, action) {
       });
 
     case ZOOM_IN:
-      console.log(state.zoomLevel);
       if (state.zoomLevel === 200) {
         return state;
       }
 
       return Object.assign({}, state, {
-        zoomLevel: state.zoomLevel + 10
+        zoomLevel: state.zoomLevel + 20
       });
 
     case ZOOM_OUT:
-      if (state.zoomLevel === 10) {
+      if (state.zoomLevel === 20) {
         return state;
       }
       return Object.assign({}, state, {
-        zoomLevel: state.zoomLevel - 10
+        zoomLevel: state.zoomLevel - 20
+      });
+
+    case SELECT_HEX_AND_ZOOM_IN:
+      if (state.zoomLevel === 200) {
+        return state;
+      }
+
+      return Object.assign({}, state, {
+        zoomLevel: state.zoomLevel + 20,
+        selectedHexId: action.hexId
       });
 
     default:

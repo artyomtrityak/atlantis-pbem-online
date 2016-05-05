@@ -73,7 +73,10 @@ function parseRegionHeader(rawRow, region) {
 
 function generateRegionId(region) {
   if (region.isUnderworld) {
-    return region.x + '_' + region.y + '_underworld';
+    return region.x + '_' + region.y + '_0';
   }
-  return region.x + '_' + region.y;
+  if (region.isNexus) {
+    return region.x + '_' + region.y + '_2';
+  }
+  return region.x + '_' + region.y + '_1';
 }

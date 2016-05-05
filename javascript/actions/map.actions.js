@@ -5,6 +5,7 @@ export const INITIALIZE = 'INITIALIZE';
 export const INITIALIZED = 'INITIALIZED';
 export const UPDATE_MAP_POSITION = 'UPDATE_MAP_POSITION';
 export const SELECT_HEX = 'SELECT_HEX';
+export const SELECT_HEX_AND_ZOOM_IN = 'SELECT_HEX_AND_ZOOM_IN';
 export const ZOOM_IN = 'ZOOM_IN';
 export const ZOOM_OUT = 'ZOOM_OUT';
 
@@ -25,6 +26,14 @@ export function updateMapPositionAction(posX, posY) {
 export function selectHexAction(hexId) {
   return {
     type: SELECT_HEX,
+    hexId: hexId
+  };
+}
+
+
+export function selectHexAndZoomInAction(hexId) {
+  return {
+    type: SELECT_HEX_AND_ZOOM_IN,
     hexId: hexId
   };
 }
