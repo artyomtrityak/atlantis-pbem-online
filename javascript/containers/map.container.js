@@ -6,7 +6,7 @@ import { animate, reportParser } from 'javascript/utils';
 import {
   selectHexAction, zoomInAction, zoomOutAction, selectHexAndZoomInAction
 } from 'javascript/actions/map.actions';
-import ZoomComponent from 'javascript/components/map-zoom';
+import MapControlsComponent from 'javascript/components/map-controls';
 
 
 let HEX_MAP = {},
@@ -180,7 +180,7 @@ class MapContainer extends Component {
   render() {
     return (
       <div className="col-md-8" ref="map">
-        <ZoomComponent onZoomIn={this.onZoomIn} onZoomOut={this.onZoomOut} />
+        <MapControlsComponent onZoomIn={this.onZoomIn} onZoomOut={this.onZoomOut} />
       </div>
     );
   }
