@@ -1,8 +1,8 @@
 import Promise from 'bluebird';
 
-import coreParser from './core-parser';
-import regionsParser from './regions-parser';
-import errorsDuringTurnParser from './errors-during-turn-parser';
+import coreParser from './core.parser';
+import regionsParser from './regions.parser';
+import errorsDuringTurnParser from './errors-during-turn.parser';
 
 
 let PARSED_REPORT = {};
