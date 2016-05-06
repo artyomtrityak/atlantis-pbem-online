@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { animate, reportParser } from 'javascript/utils';
 import {
-  updateMapPositionAction, selectHexAction, zoomInAction, zoomOutAction, selectHexAndZoomInAction
+  selectHexAction, zoomInAction, zoomOutAction, selectHexAndZoomInAction
 } from 'javascript/actions/map.actions';
 import ZoomComponent from 'javascript/components/map-zoom';
 
@@ -69,7 +69,6 @@ class MapContainer extends Component {
 
     //Change zoom and center to selected hex if zoom changed or this is first rendering
     if (this.props.map.zoomLevel !== nextProps.map.zoomLevel || this.props.map.selectedHexId === null) {
-      console.log('wft?', this.props.map.selectedHexId, this.props.map.zoomLevel, nextProps.map.zoomLevel);
       this.zoomAndCenterHex(nextProps.map.selectedHexId, nextProps.map.zoomLevel);
     }
   }
@@ -124,7 +123,6 @@ class MapContainer extends Component {
 
   onMouseUp() {
     this.dragStart = false;
-    this.props.dispatch(updateMapPositionAction(this.mapContainer.x, this.mapContainer.y));
   }
 
   onHexClick(hexId) {

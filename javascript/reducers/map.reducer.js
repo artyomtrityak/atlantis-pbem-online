@@ -1,5 +1,5 @@
 import {
-  INITIALIZE, INITIALIZED, UPDATE_MAP_POSITION, SELECT_HEX, ZOOM_IN, ZOOM_OUT, SELECT_HEX_AND_ZOOM_IN
+  INITIALIZE, INITIALIZED, SELECT_HEX, ZOOM_IN, ZOOM_OUT, SELECT_HEX_AND_ZOOM_IN
 } from 'javascript/actions/map.actions';
 
 
@@ -7,8 +7,6 @@ const defaultMapState = {
   isLoading: false,
   initialized: false,
   userMap: {},
-  posX: 0,
-  posY: 0,
   selectedHexId: null,
   zoomLevel: 100
 };
@@ -26,12 +24,6 @@ export default function mapReducer(state=defaultMapState, action) {
         isLoading: false,
         initialized: true,
         userMap: action.userMap
-      });
-
-    case UPDATE_MAP_POSITION:
-      return Object.assign({}, state, {
-        posX: action.posX,
-        posY: action.posY
       });
 
     case SELECT_HEX:

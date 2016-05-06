@@ -2,6 +2,7 @@ import Promise from 'bluebird';
 
 import coreParser from './core-parser';
 import regionsParser from './regions-parser';
+import errorsDuringTurnParser from './errors-during-turn-parser';
 
 
 let PARSED_REPORT = {};
@@ -18,9 +19,9 @@ class ReportParser {
   }
 
   parse(rawReport) {
-    this.state = {__line: 0, __modified: false, regions: {}};
+    this.state = {__line: 0, __modified: false, regions: {}, errors: []};
     this.rawReport = rawReport.split('\n');
-    this.flushTimer = 20;
+    this.flushTimer = 30;
 
     return new Promise((resolve, reject) => {
       this._onDone = resolve;
@@ -31,8 +32,11 @@ class ReportParser {
   }
 
   findAndExecuteParser() {
+    //Execute parsers
     coreParser(this.rawReport, this.state);
     regionsParser(this.rawReport, this.state);
+    errorsDuringTurnParser(this.rawReport, this.state);
+
 
     if (this.rawReport[this.state.__line] === undefined) {
       this._onDone();
@@ -51,7 +55,7 @@ class ReportParser {
       this.flushTimer -= 1;
       this.findAndExecuteParser();
     } else {
-      this.flushTimer = 20;
+      this.flushTimer = 30;
       setTimeout(this.findAndExecuteParser, 0);  
     }
   }

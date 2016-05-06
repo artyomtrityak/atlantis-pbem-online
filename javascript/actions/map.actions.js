@@ -3,7 +3,6 @@ import { loadAssets, reportParser } from 'javascript/utils';
 
 export const INITIALIZE = 'INITIALIZE';
 export const INITIALIZED = 'INITIALIZED';
-export const UPDATE_MAP_POSITION = 'UPDATE_MAP_POSITION';
 export const SELECT_HEX = 'SELECT_HEX';
 export const SELECT_HEX_AND_ZOOM_IN = 'SELECT_HEX_AND_ZOOM_IN';
 export const ZOOM_IN = 'ZOOM_IN';
@@ -11,16 +10,8 @@ export const ZOOM_OUT = 'ZOOM_OUT';
 
 
 //TMP
-import sampleReport from 'raw!tests/sample-reports/locations.rep';
-
-
-export function updateMapPositionAction(posX, posY) {
-  return {
-    type: UPDATE_MAP_POSITION,
-    posX: posX,
-    posY: posY
-  };
-}
+//import sampleReport from 'raw!tests/sample-reports/locations.rep';
+import sampleReport from 'raw!tests/sample-reports/full.rep';
 
 
 export function selectHexAction(hexId) {
