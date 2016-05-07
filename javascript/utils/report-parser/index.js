@@ -4,6 +4,7 @@ import coreParser from './core.parser';
 import regionsParser from './regions.parser';
 import errorsDuringTurnParser from './errors-during-turn.parser';
 import battlesDuringTurnParser from './battles-during-turn.parser';
+import unclaimedSilverParser from './unclimed-silver.parser';
 
 
 let PARSED_REPORT = {};
@@ -35,9 +36,10 @@ class ReportParser {
   findAndExecuteParser() {
     //Execute parsers
     coreParser(this.rawReport, this.state);
-    regionsParser(this.rawReport, this.state);
     errorsDuringTurnParser(this.rawReport, this.state);
     battlesDuringTurnParser(this.rawReport, this.state);
+    unclaimedSilverParser(this.rawReport, this.state);
+    regionsParser(this.rawReport, this.state);
 
 
     if (this.rawReport[this.state.__line] === undefined) {
