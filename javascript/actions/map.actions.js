@@ -50,6 +50,6 @@ export function initializeAction() {
     await loadAssets();
     //TODO: get user data
     await reportParser.parse(sampleReport);
-    dispatch({type: INITIALIZED, userMap: reportParser.getState()});
+    //dispatch({type: INITIALIZED, userMap: reportParser.getState()});
   };
 }

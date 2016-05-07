@@ -3,6 +3,7 @@ import Promise from 'bluebird';
 import coreParser from './core.parser';
 import regionsParser from './regions.parser';
 import errorsDuringTurnParser from './errors-during-turn.parser';
+import battlesDuringTurnParser from './battles-during-turn.parser';
 
 
 let PARSED_REPORT = {};
@@ -19,7 +20,7 @@ class ReportParser {
   }
 
   parse(rawReport) {
-    this.state = {__line: 0, __modified: false, regions: {}, errors: []};
+    this.state = {__line: 0, __modified: false, regions: {}, errors: [], battles: []};
     this.rawReport = rawReport.split('\n');
     this.flushTimer = 30;
 
@@ -36,6 +37,7 @@ class ReportParser {
     coreParser(this.rawReport, this.state);
     regionsParser(this.rawReport, this.state);
     errorsDuringTurnParser(this.rawReport, this.state);
+    battlesDuringTurnParser(this.rawReport, this.state);
 
 
     if (this.rawReport[this.state.__line] === undefined) {

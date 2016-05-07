@@ -17,7 +17,9 @@ export const getSentence = (rawReport, line) => {
     if (rawReport[line] !== undefined) {
       result += rawReport[line];  
     }
-    if (rawReport[line] === undefined || result[result.length-1] === '.' || rawReport[line] === '#end') {
+    if (rawReport[line] === undefined || result[result.length-1] === '.' || result[result.length-1] === '!' ||
+      rawReport[line] === '#end'
+    ) {
       return {
         rawRow: result,
         nextLine: line+1

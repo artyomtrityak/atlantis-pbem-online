@@ -1,7 +1,7 @@
 import { check, getSentence, mRegExp } from './utils';
 
 
-const eventsRegExp = new RegExp(/^Errors during turn:$/);
+const eventsRegExp = new RegExp(/^Events during turn:$/);
 const unclaimedRegExp = new RegExp(/^Unclaimed silver:$/);
 
 
